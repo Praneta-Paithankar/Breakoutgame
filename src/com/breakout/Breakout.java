@@ -17,6 +17,7 @@ import com.timer.BreakoutTimer;
 import com.ui.GUI;
 import com.ui.GamePanel;
 import com.ui.StaticPanel;
+import com.infrastruture.*;
 
 public class Breakout {
 	

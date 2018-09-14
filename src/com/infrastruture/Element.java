@@ -2,11 +2,11 @@ package com.infrastruture;
 
 import java.awt.Graphics;
 
-import org.json.JSONObject;
+import org.json.simple.*;
 
 public interface Element {
 	 public JSONObject save();
-	 public void load();
+	 public void load(Object object);
 	 void draw(Graphics g);
 	 void reset();
 	 public void addElement(Element e);

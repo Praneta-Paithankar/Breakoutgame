@@ -2,7 +2,7 @@ package com.component;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import org.json.JSONObject;
+import org.json.simple.*;
 
 import com.dimension.Coordinate;
 import com.dimension.Rectangle;
@@ -14,6 +14,7 @@ public class Paddle implements Element{
 	private Rectangle rectangle;
 	private int deltaX;
 	private Color color;
+	private JSONObject jsonObject;
 	
 	public Paddle(Rectangle rectangle, int deltaX, Color color) {
 		this.rectangle = rectangle;
@@ -63,12 +64,20 @@ public class Paddle implements Element{
 
 	@Override
 	public JSONObject save() {
-		// TODO Auto-generated method stub
-		return null;
+		jsonObject = new JSONObject();
+		System.out.println("Paddle Element");
+		try {
+			jsonObject.put("PaddleX", this.getRectangle().getTopLeftCoordinate().getX());
+			jsonObject.put("PaddleY", this.getRectangle().getTopLeftCoordinate().getY());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("Paddle Element save :"+jsonObject.toString());
+		return jsonObject;
 	}
 
 	@Override
-	public void load() {
+	public void load(Object object) {
 		// TODO Auto-generated method stub
 		
 	}

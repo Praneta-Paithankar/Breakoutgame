@@ -1,0 +1,1 @@
+{"class com.ui.GamePanel":{"class com.component.Paddle":{"PaddleX":350,"PaddleY":600},"class com.component.Ball":{"BallY":475,"BallX":520},"class com.component.Brick":{"BrickX":675,"Brick":true,"BrickY":250}},"class com.ui.StaticPanel":{"class com.component.Clock":{"Clock":"0:02"}}}

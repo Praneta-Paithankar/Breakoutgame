@@ -3,7 +3,7 @@ package com.component;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import org.json.JSONObject;
+import org.json.simple.*;
 
 import com.dimension.Circle;
 import com.dimension.Coordinate;
@@ -15,6 +15,7 @@ public class Ball implements Element{
     private Circle circle;
     private Coordinate delta;
     private Color color;
+    private JSONObject jsonObject;
     
 	public Ball(Circle circle, Coordinate delta,Color color) {
 		this.setCircle(circle); 
@@ -55,14 +56,23 @@ public class Ball implements Element{
 
 	@Override
 	public JSONObject save() {
-		// TODO Auto-generated method stub
-		return null;
+		jsonObject = new JSONObject();
+		System.out.println("Ball Element");
+		try {
+			jsonObject.put("BallX", this.getCircle().getCenter().getX());
+			jsonObject.put("BallY", this.getCircle().getCenter().getY());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("Ball Element save :"+jsonObject.toString());
+		return jsonObject;
 	}
 
 	@Override
-	public void load() {
+	public void load(Object object) {
 		// TODO Auto-generated method stub
-		
+		this.getCircle().getCenter().setX(100);
+		this.getCircle().getCenter().setY(100);
 	}
 
 	@Override

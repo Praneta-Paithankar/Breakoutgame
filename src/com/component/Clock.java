@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import org.json.JSONObject;
+import org.json.simple.*;
 
 import com.infrastruture.Constants;
 import com.infrastruture.Observer;
@@ -14,6 +14,7 @@ import com.infrastruture.Element;
 public class Clock implements Element{
 
 	private long milisecondsElapsed;
+	private JSONObject jsonObject;
 
 	public Clock() {
 		milisecondsElapsed = 0;
@@ -62,12 +63,19 @@ public class Clock implements Element{
 
 	@Override
 	public JSONObject save() {
-		// TODO Auto-generated method stub
-		return null;
+		jsonObject = new JSONObject();
+		System.out.println("Clock Element");
+		try {
+			jsonObject.put("Clock", this.getTime());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("Clock Element save :"+jsonObject.toString());
+		return jsonObject;
 	}
 
 	@Override
-	public void load() {
+	public void load(Object object) {
 		// TODO Auto-generated method stub
 		
 	}

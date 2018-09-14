@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -12,6 +13,8 @@ import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
+import org.json.simple.*;
 
 import com.breakout.Breakout;
 import com.commands.BallChangeXDirectionCommand;
@@ -29,6 +32,7 @@ import com.helper.CollisionChecker;
 import com.infrastruture.Command;
 import com.infrastruture.Constants;
 import com.infrastruture.Direction;
+import com.infrastruture.Element;
 import com.infrastruture.Observer;
 import com.timer.BreakoutTimer;
 import com.ui.GUI;
@@ -47,6 +51,7 @@ public class GameController implements Observer, KeyListener,ActionListener{
     private Clock clock;
     private boolean isGamePaused = false;
     private CollisionChecker collisionChecker;
+    private JSONObject jsonObject;
     private Deque<Command> commandQueue;
     private BallChangeXDirectionCommand ballChangeXDirectionCommand;
     private BallChangeYDirectionCommand ballChangeYDirectionCommand;
@@ -251,6 +256,14 @@ public class GameController implements Observer, KeyListener,ActionListener{
 		observable.registerObserver(this);
 	}
 	
+	public void save() {
+		gui.save();
+	}
+	
+	public void load() {
+		gui.load(null);
+	}
+	
 	//Switch between actions when a button is pressed
 	
 	@Override
@@ -285,6 +298,14 @@ public class GameController implements Observer, KeyListener,ActionListener{
 			pause();
 			gui.changeFocus();
 			gui.changeUI();
+		}else if(commandText.equals("save")) {
+			save();
+			//gui.changeFocus();
+			//gui.changeUI();
+		}else if(commandText.equals("load")) {
+			load();
+			//gui.changeFocus();
+			//gui.changeUI();
 		}
 		
 	}

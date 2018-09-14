@@ -4,7 +4,15 @@ package com.ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -15,10 +23,15 @@ import javax.swing.SwingConstants;
 
 import com.controller.GameController;
 import com.infrastruture.Constants;
+import com.infrastruture.Element;
+
+import org.json.simple.*;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 
 @SuppressWarnings("serial")
-public class GUI extends JFrame{
+public class GUI extends JFrame implements Element{
 	
 	private GamePanel boardPanel;
 	
@@ -26,10 +39,13 @@ public class GUI extends JFrame{
 	private GameController driver;
 	private JPanel mainPanel;
 	private StaticPanel timerPanel;
+	private ArrayList<Element> elementList;
+	private JSONObject jsonObject;
 	
 	public GUI() {
 		boardPanel = new GamePanel();
 		timerPanel = new StaticPanel();
+		elementList = new ArrayList<>();
 		initializeUI();
 	}
 
@@ -38,6 +54,7 @@ public class GUI extends JFrame{
 		super("Breakout Game");
 		this.boardPanel = boardPanel;
 		this.timerPanel = timerPanel;
+		elementList = new ArrayList<>();
 		initializeUI();
 	}
 	
@@ -71,14 +88,14 @@ public class GUI extends JFrame{
 		boardPanel.add(exitLabel);
 		boardPanel.setMaximumSize(new Dimension(Constants.FRAME_WIDTH,Constants.FRAME_HEIGHT));
 		mainPanel.add(boardPanel);
-		
+		elementList.add(boardPanel);
 	}
 	private void initializeUI() {
-		
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
        
         mainPanel.add(timerPanel);
+        elementList.add(timerPanel);
         createBoardPanel();
         
 		add(mainPanel);
@@ -89,7 +106,6 @@ public class GUI extends JFrame{
 		setSize(Constants.FRAME_WIDTH,Constants.FRAME_HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);	
-		
 	}
 	public void removeKeyListner() {
 		mainPanel.removeKeyListener(driver);
@@ -122,5 +138,70 @@ public class GUI extends JFrame{
 
 	public void setTimerPanel(StaticPanel timerPanel) {
 		this.timerPanel = timerPanel;
+	}
+
+	@Override
+	public JSONObject save() {
+		System.out.println("GUI Panel");
+		// TODO Auto-generated method stub
+		jsonObject = new JSONObject();
+		System.out.println("GUI Panel");
+		try {
+			for (Element element : elementList) {
+				jsonObject.put(element.getClass().toString(), element.save());
+			}
+			System.out.println("GUI Panel Save :"+jsonObject.toString());
+			
+			FileWriter file = new FileWriter("newfile.json");
+			file.write(jsonObject.toJSONString());
+			file.flush();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		return jsonObject;
+	}
+
+	@Override
+	public void load(Object object) {
+		System.out.println("In Load...");
+		try {
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(new FileReader("newfile.json"));
+			
+			JSONObject jsonObject1 = (JSONObject) obj;
+			
+			for (Element element : elementList) {
+				System.out.println("value of key ----- "+jsonObject1.get(element.getClass().toString()));
+				element.load(jsonObject1.get(element.getClass().toString()));
+			}
+			changeUI();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void draw(Graphics g) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addElement(Element e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeElement(Element e) {
+		// TODO Auto-generated method stub
+		
 	}	
 }

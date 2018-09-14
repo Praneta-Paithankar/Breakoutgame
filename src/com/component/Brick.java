@@ -3,7 +3,7 @@ package com.component;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import org.json.JSONObject;
+import org.json.simple.*;
 
 import com.dimension.Rectangle;
 import com.infrastruture.Constants;
@@ -14,6 +14,8 @@ public class Brick implements Element{
 	private Rectangle rectangle;
 	private boolean visible;
 	private Color color;
+	private JSONObject jsonObject;
+	
 	public Brick(Rectangle rectangle, boolean visible,Color color) {
 		this.setRectangle(rectangle);
 		this.setVisible(visible);
@@ -55,12 +57,21 @@ public class Brick implements Element{
 
 	@Override
 	public JSONObject save() {
-		// TODO Auto-generated method stub
-		return null;
+		jsonObject = new JSONObject();
+		System.out.println("Brick Element");
+		try {
+			jsonObject.put("Brick", this.isVisible());
+			jsonObject.put("BrickX", this.getRectangle().getTopLeftCoordinate().getX());
+			jsonObject.put("BrickY", this.getRectangle().getTopLeftCoordinate().getY());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("Brick Element save :"+jsonObject.toString());
+		return jsonObject;
 	}
 
 	@Override
-	public void load() {
+	public void load(Object object) {
 		// TODO Auto-generated method stub
 		
 	}
