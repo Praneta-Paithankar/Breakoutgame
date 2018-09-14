@@ -79,7 +79,7 @@ public class GamePanel extends JPanel implements Element{
 	public JSONObject save() {
 		jsonObject = new JSONObject();
 		System.out.println("Game Panel");
-		System.out.println("elements size : "+elements.size());
+		System.out.println(elements.size());
 		try {
 			for (Element element : elements) {
 					jsonObject.put(element.getClass().toString(), element.save());
@@ -93,11 +93,9 @@ public class GamePanel extends JPanel implements Element{
 
 	@Override
 	public void load(Object object) {
-		
+		System.out.println("---------------Game Panel Load-----------------");
 		JSONObject jsonObject1 = (JSONObject) object;
-		
 		for (Element element : elements) {
-			System.out.println("value of key ----- "+jsonObject1.get(element.getClass().toString()));
 			element.load(jsonObject1.get(element.getClass().toString()));
 		}
 	}

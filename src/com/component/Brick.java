@@ -58,7 +58,6 @@ public class Brick implements Element{
 	@Override
 	public JSONObject save() {
 		jsonObject = new JSONObject();
-		System.out.println("Brick Element");
 		try {
 			jsonObject.put("Brick", this.isVisible());
 			jsonObject.put("BrickX", this.getRectangle().getTopLeftCoordinate().getX());
@@ -66,7 +65,6 @@ public class Brick implements Element{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Brick Element save :"+jsonObject.toString());
 		return jsonObject;
 	}
 

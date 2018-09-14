@@ -165,7 +165,7 @@ public class GUI extends JFrame implements Element{
 
 	@Override
 	public void load(Object object) {
-		System.out.println("In Load...");
+		System.out.println("---------------GUI Load-----------------");
 		try {
 			JSONParser parser = new JSONParser();
 			Object obj = parser.parse(new FileReader("newfile.json"));
@@ -173,7 +173,6 @@ public class GUI extends JFrame implements Element{
 			JSONObject jsonObject1 = (JSONObject) obj;
 			
 			for (Element element : elementList) {
-				System.out.println("value of key ----- "+jsonObject1.get(element.getClass().toString()));
 				element.load(jsonObject1.get(element.getClass().toString()));
 			}
 			changeUI();

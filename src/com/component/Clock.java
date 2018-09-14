@@ -64,20 +64,20 @@ public class Clock implements Element{
 	@Override
 	public JSONObject save() {
 		jsonObject = new JSONObject();
-		System.out.println("Clock Element");
 		try {
-			jsonObject.put("Clock", this.getTime());
+			jsonObject.put("Clock", this.getMilisecondsElapsed());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Clock Element save :"+jsonObject.toString());
 		return jsonObject;
 	}
 
 	@Override
 	public void load(Object object) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("------- Clock Load -------");
+		JSONObject jsonObject1 = (JSONObject) object;
+		this.setMilisecondsElapsed((long)(jsonObject1.get("Clock")));
 	}
 
 	@Override

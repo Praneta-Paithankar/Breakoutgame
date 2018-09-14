@@ -65,21 +65,22 @@ public class Paddle implements Element{
 	@Override
 	public JSONObject save() {
 		jsonObject = new JSONObject();
-		System.out.println("Paddle Element");
 		try {
 			jsonObject.put("PaddleX", this.getRectangle().getTopLeftCoordinate().getX());
 			jsonObject.put("PaddleY", this.getRectangle().getTopLeftCoordinate().getY());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Paddle Element save :"+jsonObject.toString());
 		return jsonObject;
 	}
 
 	@Override
 	public void load(Object object) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("------- Paddle Load -------");
+		JSONObject jsonObject1 = (JSONObject) object;
+		this.getRectangle().getTopLeftCoordinate().setX((int)(long)jsonObject1.get("PaddleX"));
+		this.getRectangle().getTopLeftCoordinate().setY((int)(long)jsonObject1.get("PaddleY"));
 	}
 
 	@Override

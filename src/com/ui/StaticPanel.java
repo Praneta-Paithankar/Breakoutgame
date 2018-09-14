@@ -107,7 +107,6 @@ public class StaticPanel extends JPanel implements Element{
 	public JSONObject save() {
 		// TODO Auto-generated method stub
 		jsonObject = new JSONObject();
-		System.out.println("Static Panel");
 		try {
 			for (Element element : elements) {
 					jsonObject.put(element.getClass().toString(), element.save());
@@ -120,8 +119,11 @@ public class StaticPanel extends JPanel implements Element{
 	}
 	@Override
 	public void load(Object object) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("---------------Static Panel Load-----------------");
+		JSONObject jsonObject1 = (JSONObject) object;
+		for (Element element : elements) {
+			element.load(jsonObject1.get(element.getClass().toString()));
+		}
 	}
 	@Override
 	public void draw(Graphics g) {

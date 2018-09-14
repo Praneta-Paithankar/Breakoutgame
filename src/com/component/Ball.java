@@ -57,22 +57,23 @@ public class Ball implements Element{
 	@Override
 	public JSONObject save() {
 		jsonObject = new JSONObject();
-		System.out.println("Ball Element");
 		try {
 			jsonObject.put("BallX", this.getCircle().getCenter().getX());
 			jsonObject.put("BallY", this.getCircle().getCenter().getY());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Ball Element save :"+jsonObject.toString());
 		return jsonObject;
 	}
 
 	@Override
 	public void load(Object object) {
 		// TODO Auto-generated method stub
-		this.getCircle().getCenter().setX(100);
-		this.getCircle().getCenter().setY(100);
+		System.out.println("------- Ball Load -------");
+		JSONObject jsonObject1 = (JSONObject) object;
+		
+		this.getCircle().getCenter().setX((int)(long)(jsonObject1.get("BallX")));
+		this.getCircle().getCenter().setY((int)(long)(jsonObject1.get("BallY")));
 	}
 
 	@Override
