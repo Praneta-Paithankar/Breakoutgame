@@ -257,6 +257,7 @@ public class GameController implements Observer, KeyListener,ActionListener{
 	}
 	
 	public void save() {
+		pause();
 		gui.save();
 	}
 	

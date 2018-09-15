@@ -6,35 +6,31 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.controller.GameController;
 import com.infrastruture.Constants;
 import com.infrastruture.Element;
 
-import org.json.simple.*;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 
 @SuppressWarnings("serial")
 public class GUI extends JFrame implements Element{
-	
+	private JTextField filename = new JTextField(), dir = new JTextField();	
 	private GamePanel boardPanel;
-	
 	private JLabel exitLabel;
 	private GameController driver;
 	private JPanel mainPanel;
@@ -145,12 +141,23 @@ public class GUI extends JFrame implements Element{
 		// TODO Auto-generated method stub
 		jsonObject = new JSONObject();
 		try {
-			for (Element element : elementList) {
-				jsonObject.put(element.getClass().toString(), element.save());
-			}
-			FileWriter file = new FileWriter("newfile.json");
-			file.write(jsonObject.toJSONString());
-			file.flush();
+			JFileChooser c = new JFileChooser();
+			int rVal = c.showSaveDialog(boardPanel);
+		      if (rVal == JFileChooser.APPROVE_OPTION) {
+		        filename.setText(c.getSelectedFile().getName());
+		        dir.setText(c.getCurrentDirectory().toString());
+		        for (Element element : elementList) {
+					jsonObject.put(element.getClass().toString(), element.save());
+				}
+				FileWriter file = new FileWriter(dir.getText() + "\\" + filename.getText());
+				file.write(jsonObject.toJSONString());
+				file.flush();
+		      }
+		      if (rVal == JFileChooser.CANCEL_OPTION) {
+		        filename.setText("You pressed cancel");
+		        dir.setText("");
+		      }
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -162,17 +169,28 @@ public class GUI extends JFrame implements Element{
 	public int load(Object object) {
 		int brickCount = 0;
 		try {
-			JSONParser parser = new JSONParser();
-			Object obj = parser.parse(new FileReader("newfile.json"));
-			JSONObject jsonObject1 = (JSONObject) obj;
-			
-			for (Element element : elementList) {
-				if(element.getClass().toString().contains("GamePanel")) {
-					brickCount = element.load(jsonObject1.get(element.getClass().toString()));
-				}else {
-					element.load(jsonObject1.get(element.getClass().toString()));
+			JFileChooser c = new JFileChooser();
+			int rVal = c.showOpenDialog(boardPanel);
+		      if (rVal == JFileChooser.APPROVE_OPTION) {
+		        filename.setText(c.getSelectedFile().getName());
+		        dir.setText(c.getCurrentDirectory().toString());
+		        JSONParser parser = new JSONParser();
+				Object obj = parser.parse(new FileReader(dir.getText() + "\\" + filename.getText()));
+				JSONObject jsonObject1 = (JSONObject) obj;
+				
+				for (Element element : elementList) {
+					if(element.getClass().toString().contains("GamePanel")) {
+						brickCount = element.load(jsonObject1.get(element.getClass().toString()));
+					}else {
+						element.load(jsonObject1.get(element.getClass().toString()));
+					}
 				}
-			}
+		      }
+		      if (rVal == JFileChooser.CANCEL_OPTION) {
+		        filename.setText("You pressed cancel");
+		        dir.setText("");
+		      }
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
