@@ -73,11 +73,12 @@ public class Clock implements Element{
 	}
 
 	@Override
-	public void load(Object object) {
+	public int load(Object object) {
 		// TODO Auto-generated method stub
-		System.out.println("------- Clock Load -------");
 		JSONObject jsonObject1 = (JSONObject) object;
 		this.setMilisecondsElapsed((long)(jsonObject1.get("Clock")));
+		
+		return 1;
 	}
 
 	@Override

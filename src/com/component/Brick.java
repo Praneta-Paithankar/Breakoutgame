@@ -69,9 +69,18 @@ public class Brick implements Element{
 	}
 
 	@Override
-	public void load(Object object) {
-		// TODO Auto-generated method stub
+	public int load(Object object) {
+		// TODO Auto-generated method stub'
+		JSONObject jsonObject1 = (JSONObject) object;
+		this.setVisible((Boolean)jsonObject1.get("Brick"));
+		this.getRectangle().getTopLeftCoordinate().setX((int)(long)jsonObject1.get("BrickX"));
+		this.getRectangle().getTopLeftCoordinate().setY((int)(long)jsonObject1.get("BrickY"));
 		
+		if(this.isVisible() == true) {
+			return 1;
+		}else {
+			return 0;
+		}
 	}
 
 	@Override

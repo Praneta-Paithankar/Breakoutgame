@@ -78,27 +78,45 @@ public class GamePanel extends JPanel implements Element{
 	@Override
 	public JSONObject save() {
 		jsonObject = new JSONObject();
-		System.out.println("Game Panel");
-		System.out.println(elements.size());
+		JSONArray jsonArray = new JSONArray();
+		String className= "";
+		int count = 1;
 		try {
 			for (Element element : elements) {
+				if(element.getClass().toString().contains("Brick")) {
+					jsonObject.put(element.getClass().toString()+"_"+count, element.save());
+					count++;
+				}else {
 					jsonObject.put(element.getClass().toString(), element.save());
+				}
 			}
+			jsonObject.put(className, jsonArray);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Game Panel Save :"+jsonObject.toString());
 		return jsonObject;
 	}
 
 	@Override
-	public void load(Object object) {
-		System.out.println("---------------Game Panel Load-----------------");
+	public int load(Object object) {
 		JSONObject jsonObject1 = (JSONObject) object;
+		int count = 1;
+		int visibilityFlag=0;
+		int brickCount = 0;
 		for (Element element : elements) {
-			element.load(jsonObject1.get(element.getClass().toString()));
-		}
+			if(element.getClass().toString().contains("Brick")) {
+				visibilityFlag = element.load(jsonObject1.get(element.getClass().toString()+"_"+count));
+				count++;
+				if(visibilityFlag == 1) {
+					brickCount++;
+				}
+			}else {
+				element.load(jsonObject1.get(element.getClass().toString()));
+			}
+		}	
+		return brickCount;
 	}
+			
 
 	@Override
 	public void draw(Graphics g) {

@@ -75,12 +75,13 @@ public class Paddle implements Element{
 	}
 
 	@Override
-	public void load(Object object) {
+	public int load(Object object) {
 		// TODO Auto-generated method stub
-		System.out.println("------- Paddle Load -------");
 		JSONObject jsonObject1 = (JSONObject) object;
 		this.getRectangle().getTopLeftCoordinate().setX((int)(long)jsonObject1.get("PaddleX"));
 		this.getRectangle().getTopLeftCoordinate().setY((int)(long)jsonObject1.get("PaddleY"));
+		
+		return 1;
 	}
 
 	@Override

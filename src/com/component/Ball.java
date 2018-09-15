@@ -60,6 +60,8 @@ public class Ball implements Element{
 		try {
 			jsonObject.put("BallX", this.getCircle().getCenter().getX());
 			jsonObject.put("BallY", this.getCircle().getCenter().getY());
+			jsonObject.put("BallDeltaX", this.getDelta().getX());
+			jsonObject.put("BallDeltaY", this.getDelta().getY());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -67,13 +69,15 @@ public class Ball implements Element{
 	}
 
 	@Override
-	public void load(Object object) {
+	public int load(Object object) {
 		// TODO Auto-generated method stub
-		System.out.println("------- Ball Load -------");
 		JSONObject jsonObject1 = (JSONObject) object;
 		
 		this.getCircle().getCenter().setX((int)(long)(jsonObject1.get("BallX")));
 		this.getCircle().getCenter().setY((int)(long)(jsonObject1.get("BallY")));
+		this.getDelta().setX((int)(long)(jsonObject1.get("BallDeltaX")));
+		this.getDelta().setY((int)(long)(jsonObject1.get("BallDeltaY")));
+		return 1;
 	}
 
 	@Override

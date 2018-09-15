@@ -6,7 +6,7 @@ import org.json.simple.*;
 
 public interface Element {
 	 public JSONObject save();
-	 public void load(Object object);
+	 public int load(Object object);
 	 void draw(Graphics g);
 	 void reset();
 	 public void addElement(Element e);

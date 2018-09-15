@@ -142,20 +142,15 @@ public class GUI extends JFrame implements Element{
 
 	@Override
 	public JSONObject save() {
-		System.out.println("GUI Panel");
 		// TODO Auto-generated method stub
 		jsonObject = new JSONObject();
-		System.out.println("GUI Panel");
 		try {
 			for (Element element : elementList) {
 				jsonObject.put(element.getClass().toString(), element.save());
 			}
-			System.out.println("GUI Panel Save :"+jsonObject.toString());
-			
 			FileWriter file = new FileWriter("newfile.json");
 			file.write(jsonObject.toJSONString());
 			file.flush();
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -164,21 +159,24 @@ public class GUI extends JFrame implements Element{
 	}
 
 	@Override
-	public void load(Object object) {
-		System.out.println("---------------GUI Load-----------------");
+	public int load(Object object) {
+		int brickCount = 0;
 		try {
 			JSONParser parser = new JSONParser();
 			Object obj = parser.parse(new FileReader("newfile.json"));
-			
 			JSONObject jsonObject1 = (JSONObject) obj;
 			
 			for (Element element : elementList) {
-				element.load(jsonObject1.get(element.getClass().toString()));
+				if(element.getClass().toString().contains("GamePanel")) {
+					brickCount = element.load(jsonObject1.get(element.getClass().toString()));
+				}else {
+					element.load(jsonObject1.get(element.getClass().toString()));
+				}
 			}
-			changeUI();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return brickCount;
 	}
 
 	@Override

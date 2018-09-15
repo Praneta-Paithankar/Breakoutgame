@@ -114,16 +114,15 @@ public class StaticPanel extends JPanel implements Element{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Static Panel Save :"+jsonObject.toString());
 		return jsonObject;
 	}
 	@Override
-	public void load(Object object) {
-		System.out.println("---------------Static Panel Load-----------------");
+	public int load(Object object) {
 		JSONObject jsonObject1 = (JSONObject) object;
 		for (Element element : elements) {
 			element.load(jsonObject1.get(element.getClass().toString()));
 		}
+		return 1;
 	}
 	@Override
 	public void draw(Graphics g) {

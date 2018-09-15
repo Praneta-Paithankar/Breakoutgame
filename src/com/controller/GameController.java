@@ -261,7 +261,8 @@ public class GameController implements Observer, KeyListener,ActionListener{
 	}
 	
 	public void load() {
-		gui.load(null);
+		commandQueue.clear();
+		this.noOfBricks = gui.load(null);
 	}
 	
 	//Switch between actions when a button is pressed
@@ -300,12 +301,12 @@ public class GameController implements Observer, KeyListener,ActionListener{
 			gui.changeUI();
 		}else if(commandText.equals("save")) {
 			save();
-			//gui.changeFocus();
+			gui.changeFocus();
 			//gui.changeUI();
 		}else if(commandText.equals("load")) {
 			load();
-			//gui.changeFocus();
-			//gui.changeUI();
+			gui.changeFocus();
+			gui.changeUI();
 		}
 		
 	}
