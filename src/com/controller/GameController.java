@@ -262,6 +262,7 @@ public class GameController implements Observer, KeyListener,ActionListener{
 	}
 	
 	public void load() {
+		pause();
 		commandQueue.clear();
 		this.noOfBricks = gui.load(null);
 	}
