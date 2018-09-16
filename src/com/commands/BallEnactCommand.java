@@ -2,12 +2,15 @@ package com.commands;
 
 import com.infrastruture.Command;
 import com.infrastruture.Constants;
+
+import org.apache.log4j.Logger;
+
 import com.component.Ball;
 import com.dimension.Circle;
 import com.dimension.Coordinate; 
 
 public class BallEnactCommand implements Command {
-
+	protected Logger log = Logger.getLogger(BallEnactCommand.class);
 	Ball ball;
 	
 	public BallEnactCommand(Ball ball) {

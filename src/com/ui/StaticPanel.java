@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
 import org.json.simple.*;
 
 import com.controller.GameController;
@@ -18,7 +19,7 @@ import com.infrastruture.Element;
 
 @SuppressWarnings("serial")
 public class StaticPanel extends JPanel implements Element{
-
+	protected Logger log = Logger.getLogger(StaticPanel.class);
 	private JLabel score;
 	private GameController driver;
 	private ArrayList<Element> elements;
@@ -112,15 +113,15 @@ public class StaticPanel extends JPanel implements Element{
 					jsonObject.put(element.getClass().toString(), element.save());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		return jsonObject;
 	}
 	@Override
 	public int load(Object object) {
-		JSONObject jsonObject1 = (JSONObject) object;
+		jsonObject = (JSONObject) object;
 		for (Element element : elements) {
-			element.load(jsonObject1.get(element.getClass().toString()));
+			element.load(jsonObject.get(element.getClass().toString()));
 		}
 		return 1;
 	}
@@ -134,14 +135,5 @@ public class StaticPanel extends JPanel implements Element{
 		// TODO Auto-generated method stub
 		
 	}
-	
-//	@Override
-//	public void paintComponent(Graphics g){
-//		super.paintComponent(g);
-//		for(Element element : elements)
-//		{
-//			element.draw(g);
-//		}
-//    }
 	
 }

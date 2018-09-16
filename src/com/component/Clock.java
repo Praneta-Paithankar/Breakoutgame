@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
+import org.apache.log4j.Logger;
 import org.json.simple.*;
 
 import com.infrastruture.Constants;
@@ -12,7 +13,7 @@ import com.infrastruture.Element;
 
 
 public class Clock implements Element{
-
+	protected Logger log = Logger.getLogger(Clock.class);
 	private long milisecondsElapsed;
 	private JSONObject jsonObject;
 
@@ -30,11 +31,8 @@ public class Clock implements Element{
 	
 	@Override
 	public void draw(Graphics g) {
-				
 		// TODO center box around the time 
-//		g.drawRect(getX(), getY(), getWidth(), getHeight());
 		g.drawRect(0, 150, 250, 100);
-//		g.setColor(Color.WHITE);
 		g.setFont(new Font("Arial", Font.BOLD, 40));
 		String time = getTime();
 		g.drawString(time, 10+ 5, 200);
@@ -67,7 +65,7 @@ public class Clock implements Element{
 		try {
 			jsonObject.put("Clock", this.getMilisecondsElapsed());
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		return jsonObject;
 	}
@@ -75,8 +73,8 @@ public class Clock implements Element{
 	@Override
 	public int load(Object object) {
 		// TODO Auto-generated method stub
-		JSONObject jsonObject1 = (JSONObject) object;
-		this.setMilisecondsElapsed((long)(jsonObject1.get("Clock")));
+		jsonObject = (JSONObject) object;
+		this.setMilisecondsElapsed((long)(jsonObject.get("Clock")));
 		
 		return 1;
 	}

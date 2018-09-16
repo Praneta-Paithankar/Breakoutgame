@@ -3,15 +3,17 @@ package com.component;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import org.apache.log4j.Logger;
 import org.json.simple.*;
 
+import com.controller.GameController;
 import com.dimension.Circle;
 import com.dimension.Coordinate;
 import com.infrastruture.Constants;
 import com.infrastruture.Element;
 
 public class Ball implements Element{
-	
+	protected Logger log = Logger.getLogger(Ball.class);
     private Circle circle;
     private Coordinate delta;
     private Color color;
@@ -63,7 +65,7 @@ public class Ball implements Element{
 			jsonObject.put("BallDeltaX", this.getDelta().getX());
 			jsonObject.put("BallDeltaY", this.getDelta().getY());
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		return jsonObject;
 	}
@@ -71,12 +73,13 @@ public class Ball implements Element{
 	@Override
 	public int load(Object object) {
 		// TODO Auto-generated method stub
-		JSONObject jsonObject1 = (JSONObject) object;
+		jsonObject = (JSONObject) object;
 		
-		this.getCircle().getCenter().setX((int)(long)(jsonObject1.get("BallX")));
-		this.getCircle().getCenter().setY((int)(long)(jsonObject1.get("BallY")));
-		this.getDelta().setX((int)(long)(jsonObject1.get("BallDeltaX")));
-		this.getDelta().setY((int)(long)(jsonObject1.get("BallDeltaY")));
+		this.getCircle().getCenter().setX((int)(long)(jsonObject.get("BallX")));
+		this.getCircle().getCenter().setY((int)(long)(jsonObject.get("BallY")));
+		this.getDelta().setX((int)(long)(jsonObject.get("BallDeltaX")));
+		this.getDelta().setY((int)(long)(jsonObject.get("BallDeltaY")));
+		
 		return 1;
 	}
 

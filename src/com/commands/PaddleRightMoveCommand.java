@@ -1,5 +1,7 @@
 package com.commands;
 
+import org.apache.log4j.Logger;
+
 import com.component.Paddle;
 import com.dimension.Coordinate;
 import com.dimension.Rectangle;
@@ -7,7 +9,8 @@ import com.infrastruture.Command;
 import com.infrastruture.Constants;
 
 public class PaddleRightMoveCommand implements Command{
-    Paddle paddle;
+	protected Logger log = Logger.getLogger(PaddleRightMoveCommand.class);
+	Paddle paddle;
 	Coordinate prevTopLeft;
 	
 	public PaddleRightMoveCommand(Paddle paddle) {

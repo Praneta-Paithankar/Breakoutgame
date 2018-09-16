@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -29,6 +30,7 @@ import com.infrastruture.Element;
 
 @SuppressWarnings("serial")
 public class GUI extends JFrame implements Element{
+	protected Logger log = Logger.getLogger(GUI.class);
 	private JTextField filename = new JTextField(), dir = new JTextField();	
 	private GamePanel boardPanel;
 	private JLabel exitLabel;
@@ -37,6 +39,7 @@ public class GUI extends JFrame implements Element{
 	private StaticPanel timerPanel;
 	private ArrayList<Element> elementList;
 	private JSONObject jsonObject;
+	private JSONParser parser;
 	
 	public GUI() {
 		boardPanel = new GamePanel();
@@ -157,9 +160,8 @@ public class GUI extends JFrame implements Element{
 		        filename.setText("You pressed cancel");
 		        dir.setText("");
 		      }
-			
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		} 
 		
 		return jsonObject;
@@ -174,15 +176,15 @@ public class GUI extends JFrame implements Element{
 		      if (rVal == JFileChooser.APPROVE_OPTION) {
 		        filename.setText(c.getSelectedFile().getName());
 		        dir.setText(c.getCurrentDirectory().toString());
-		        JSONParser parser = new JSONParser();
+		        parser = new JSONParser();
 				Object obj = parser.parse(new FileReader(dir.getText() + "\\" + filename.getText()));
-				JSONObject jsonObject1 = (JSONObject) obj;
+				jsonObject = (JSONObject) obj;
 				
 				for (Element element : elementList) {
 					if(element.getClass().toString().contains("GamePanel")) {
-						brickCount = element.load(jsonObject1.get(element.getClass().toString()));
+						brickCount = element.load(jsonObject.get(element.getClass().toString()));
 					}else {
-						element.load(jsonObject1.get(element.getClass().toString()));
+						element.load(jsonObject.get(element.getClass().toString()));
 					}
 				}
 		      }
@@ -192,7 +194,7 @@ public class GUI extends JFrame implements Element{
 		      }
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		return brickCount;
 	}

@@ -1,6 +1,9 @@
 package com.dimension;
 
+import org.apache.log4j.Logger;
+
 public class Coordinate {
+	protected Logger log = Logger.getLogger(Coordinate.class);
 	private int x;
 	private int y;
 	

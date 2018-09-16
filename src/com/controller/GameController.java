@@ -14,6 +14,7 @@ import java.util.Iterator;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import org.apache.log4j.Logger;
 import org.json.simple.*;
 
 import com.breakout.Breakout;
@@ -38,7 +39,7 @@ import com.timer.BreakoutTimer;
 import com.ui.GUI;
 
 public class GameController implements Observer, KeyListener,ActionListener{
-	
+	protected Logger log = Logger.getLogger(GameController.class);
 	private Ball ball;
 	private Paddle paddle;
 	private ArrayList<Brick> bricks;
@@ -222,20 +223,20 @@ public class GameController implements Observer, KeyListener,ActionListener{
 									Thread.sleep(10);
 								} catch (InterruptedException e) {
 									// TODO Auto-generated catch block
-									e.printStackTrace();
+									log.error(e.getMessage());
 								}
 							}
 						});
 					} catch (InvocationTargetException | InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						log.error(e.getMessage());
 					}	
 				}
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					log.error(e.getMessage());
 				}
 				noOfBricks = brickCount;
 			}
@@ -304,7 +305,6 @@ public class GameController implements Observer, KeyListener,ActionListener{
 		}else if(commandText.equals("save")) {
 			save();
 			gui.changeFocus();
-			//gui.changeUI();
 		}else if(commandText.equals("load")) {
 			load();
 			gui.changeFocus();

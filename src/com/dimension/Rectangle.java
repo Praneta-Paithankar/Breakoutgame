@@ -1,7 +1,9 @@
 package com.dimension;
 
+import org.apache.log4j.Logger;
+
 public class Rectangle {
-	
+	protected Logger log = Logger.getLogger(Rectangle.class);
 	private int width;
 	private int height;
 	private Coordinate topLeft;

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
 
+import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.Logger;
+
 import com.component.Ball;
 import com.component.Brick;
 import com.component.Clock;
@@ -20,6 +23,7 @@ import com.ui.StaticPanel;
 import com.infrastruture.*;
 
 public class Breakout {
+	protected Logger log = Logger.getLogger(Breakout.class);
 	
 	public static void startGame(boolean isRestart){
 		
@@ -64,8 +68,9 @@ public class Breakout {
 			driver.pause();
 	}
 	public static void main(String args[]) {
+		PropertyConfigurator.configure("log4j.properties");
 		SwingUtilities.invokeLater(new Runnable() {
-
+			
 			@Override
 			public void run() {
 			

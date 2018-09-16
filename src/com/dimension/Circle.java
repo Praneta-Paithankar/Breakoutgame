@@ -1,6 +1,11 @@
 package com.dimension;
 
+import org.apache.log4j.Logger;
+
+import com.helper.CollisionChecker;
+
 public class Circle {
+	protected Logger log = Logger.getLogger(Circle.class);
 	private int radius;
 	private Coordinate center;
 

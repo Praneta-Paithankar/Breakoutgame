@@ -2,6 +2,7 @@ package com.component;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import org.apache.log4j.Logger;
 import org.json.simple.*;
 
 import com.dimension.Coordinate;
@@ -10,7 +11,7 @@ import com.infrastruture.Constants;
 import com.infrastruture.Element;
 
 public class Paddle implements Element{
-
+	protected Logger log = Logger.getLogger(Paddle.class);
 	private Rectangle rectangle;
 	private int deltaX;
 	private Color color;
@@ -69,7 +70,7 @@ public class Paddle implements Element{
 			jsonObject.put("PaddleX", this.getRectangle().getTopLeftCoordinate().getX());
 			jsonObject.put("PaddleY", this.getRectangle().getTopLeftCoordinate().getY());
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		return jsonObject;
 	}
@@ -77,9 +78,9 @@ public class Paddle implements Element{
 	@Override
 	public int load(Object object) {
 		// TODO Auto-generated method stub
-		JSONObject jsonObject1 = (JSONObject) object;
-		this.getRectangle().getTopLeftCoordinate().setX((int)(long)jsonObject1.get("PaddleX"));
-		this.getRectangle().getTopLeftCoordinate().setY((int)(long)jsonObject1.get("PaddleY"));
+		jsonObject = (JSONObject) object;
+		this.getRectangle().getTopLeftCoordinate().setX((int)(long)jsonObject.get("PaddleX"));
+		this.getRectangle().getTopLeftCoordinate().setY((int)(long)jsonObject.get("PaddleY"));
 		
 		return 1;
 	}

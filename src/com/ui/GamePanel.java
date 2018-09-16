@@ -1,6 +1,8 @@
 package com.ui;
 
 import java.awt.Graphics;
+
+import com.controller.GameController;
 import com.image.*;
 import java.util.ArrayList;
 import java.awt.Image;
@@ -15,6 +17,7 @@ import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 
@@ -23,7 +26,7 @@ import com.infrastruture.Element;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Element{
-	
+	protected Logger log = Logger.getLogger(GamePanel.class);
 	private BufferedImage image;
 	private ArrayList<Element> elements;
 	private JSONObject jsonObject;
@@ -36,7 +39,7 @@ public class GamePanel extends JPanel implements Element{
             image = resize(image, Constants.BOARD_PANEL_HEIGHT, Constants.BOARD_PANEL_WIDTH);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+        	log.error(e.getMessage());
         }
 	}
 	
@@ -92,26 +95,26 @@ public class GamePanel extends JPanel implements Element{
 			}
 			jsonObject.put(className, jsonArray);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		return jsonObject;
 	}
 
 	@Override
 	public int load(Object object) {
-		JSONObject jsonObject1 = (JSONObject) object;
+		jsonObject = (JSONObject) object;
 		int count = 1;
 		int visibilityFlag=0;
 		int brickCount = 0;
 		for (Element element : elements) {
 			if(element.getClass().toString().contains("Brick")) {
-				visibilityFlag = element.load(jsonObject1.get(element.getClass().toString()+"_"+count));
+				visibilityFlag = element.load(jsonObject.get(element.getClass().toString()+"_"+count));
 				count++;
 				if(visibilityFlag == 1) {
 					brickCount++;
 				}
 			}else {
-				element.load(jsonObject1.get(element.getClass().toString()));
+				element.load(jsonObject.get(element.getClass().toString()));
 			}
 		}	
 		return brickCount;
